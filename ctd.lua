@@ -44,13 +44,13 @@ spinner.Parent = main
 
 local textLabel = Instance.new("TextLabel")
 textLabel.Size = UDim2.new(0, 200, 0, 50)
-textLabel.Position = UDim2.new(0.5, -100, 0.5, -25)
+textLabel.Position = UDim2.new(0.5, -100, 0.5, -90)  -- Moved higher
 textLabel.BackgroundTransparency = 1
 textLabel.Text = "卐"
 textLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
 textLabel.TextStrokeTransparency = 0.8
 textLabel.Font = Enum.Font.SourceSans
-textLabel.TextSize = 50
+textLabel.TextSize = 50 * 1.15  -- Increased text size by 15%
 textLabel.Parent = spinner
 
 local colors = {Color3.fromRGB(255, 0, 0), Color3.fromRGB(255, 255, 0), Color3.fromRGB(0, 255, 0), 
@@ -67,13 +67,13 @@ RunService.RenderStepped:Connect(function(delta)
 		timeElapsed = 0
 	end
 	
-	spinner.Rotation = (spinner.Rotation + delta * 90) % 360
+	textLabel.Rotation = (textLabel.Rotation + delta * 90) % 360
 end)
 
 local function spawnTowerAtPlayer(towerName, level)
     local character = player.Character or player.CharacterAdded:Wait()
     local hrp = character:WaitForChild("HumanoidRootPart")
-    local spawnPosition = hrp.Position + Vector3.new(0, -1.4, 0)  -- Set the tower to spawn 1.4 studs below the floor
+    local spawnPosition = hrp.Position + Vector3.new(0, -1.4, 0)
 
     local towerNameWithLevel
     if level == "1" then
@@ -201,4 +201,3 @@ UIS.InputChanged:Connect(function(input)
 end)
 
 print("CTD JEW GUI V2 LOADED TIME FOR TOTAL NIGGER DEATH!!!")
-
