@@ -73,7 +73,7 @@ end)
 local function spawnTowerAtPlayer(towerName, level)
     local character = player.Character or player.CharacterAdded:Wait()
     local hrp = character:WaitForChild("HumanoidRootPart")
-    local spawnPosition = hrp.Position - Vector3.new(0, 3, 0)
+    local spawnPosition = hrp.Position + Vector3.new(0, 1.5, 0)
 
     local towerNameWithLevel
     if level == "1" then
@@ -200,4 +200,4 @@ UIS.InputChanged:Connect(function(input)
 	end
 end)
 
-print("CTD GUI LOADED: Title, Spinning Text 'I love mangos', Tower Level Input, and Spawn Button!")
+print("CTD JEW GUI LOADED TIME FOR TOTAL NIGGER DEATH!!!")
