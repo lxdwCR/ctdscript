@@ -50,7 +50,7 @@ textLabel.Text = "卐"
 textLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
 textLabel.TextStrokeTransparency = 0.8
 textLabel.Font = Enum.Font.SourceSans
-textLabel.TextSize = 20
+textLabel.TextSize = 50
 textLabel.Parent = spinner
 
 local colors = {Color3.fromRGB(255, 0, 0), Color3.fromRGB(255, 255, 0), Color3.fromRGB(0, 255, 0), 
@@ -201,3 +201,4 @@ UIS.InputChanged:Connect(function(input)
 end)
 
 print("CTD JEW GUI V2 LOADED TIME FOR TOTAL NIGGER DEATH!!!")
+
