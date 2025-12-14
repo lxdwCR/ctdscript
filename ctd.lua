@@ -46,7 +46,7 @@ local textLabel = Instance.new("TextLabel")
 textLabel.Size = UDim2.new(0, 200, 0, 50)
 textLabel.Position = UDim2.new(0.5, -100, 0.5, -25)
 textLabel.BackgroundTransparency = 1
-textLabel.Text = "I love mangos"
+textLabel.Text = "卐"
 textLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
 textLabel.TextStrokeTransparency = 0.8
 textLabel.Font = Enum.Font.SourceSans
@@ -73,7 +73,7 @@ end)
 local function spawnTowerAtPlayer(towerName, level)
     local character = player.Character or player.CharacterAdded:Wait()
     local hrp = character:WaitForChild("HumanoidRootPart")
-    local spawnPosition = hrp.Position + Vector3.new(0, 3, 0)  -- Set a higher value to avoid the floor
+    local spawnPosition = hrp.Position + Vector3.new(0, -1.4, 0)  -- Set the tower to spawn 1.4 studs below the floor
 
     local towerNameWithLevel
     if level == "1" then
@@ -200,4 +200,4 @@ UIS.InputChanged:Connect(function(input)
 	end
 end)
 
-print("CTD JEW GUI TIME FOR TOTAL NIGGER DEATH!!!")
+print("CTD JEW GUI V2 LOADED TIME FOR TOTAL NIGGER DEATH!!!")
