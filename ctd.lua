@@ -70,52 +70,35 @@ RunService.RenderStepped:Connect(function(delta)
 	spinner.Rotation = (spinner.Rotation + delta * 90) % 360
 end)
 
-local function displayError(message)
-	local errorLabel = Instance.new("TextLabel")
-	errorLabel.Size = UDim2.new(1, 0, 0, 30)
-	errorLabel.Position = UDim2.new(0, 0, 0, 60)
-	errorLabel.BackgroundTransparency = 1
-	errorLabel.Text = "ERROR: " .. message
-	errorLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-	errorLabel.TextStrokeTransparency = 0.8
-	errorLabel.Font = Enum.Font.SourceSans
-	errorLabel.TextSize = 18
-	errorLabel.Parent = gui
-	
-	-- Wait for 3 seconds before removing the error label
-	task.wait(3)
-	errorLabel:Destroy()
-end
-
 local function spawnTowerAtPlayer(towerName, level)
-	local character = player.Character or player.CharacterAdded:Wait()
-	local hrp = character:WaitForChild("HumanoidRootPart")
-	local spawnPosition = hrp.Position + Vector3.new(0, 5, 0)
+    local character = player.Character or player.CharacterAdded:Wait()
+    local hrp = character:WaitForChild("HumanoidRootPart")
+    local lowerTorso = character:FindFirstChild("LowerTorso") or hrp
+    local spawnPosition = lowerTorso.Position - Vector3.new(0, 2, 0)
 
-	local towerNameWithLevel
-	if level == "1" then
-		towerNameWithLevel = towerName
-	else
-		towerNameWithLevel = towerName .. string.rep("+", tonumber(level) - 1)
-	end
+    local towerNameWithLevel
+    if level == "1" then
+        towerNameWithLevel = towerName
+    else
+        towerNameWithLevel = towerName .. string.rep("+", tonumber(level) - 1)
+    end
 
-	print("Spawning Tower: " .. towerNameWithLevel)
+    print("Spawning Tower: " .. towerNameWithLevel)
 
-	local success, message = pcall(function()
-		local args = {
-			towerNameWithLevel,
-			CFrame.new(spawnPosition),
-		}
+    local success, message = pcall(function()
+        local args = {
+            towerNameWithLevel,
+            CFrame.new(spawnPosition),
+        }
 
-		placeTower:InvokeServer(unpack(args))
-	end)
+        placeTower:InvokeServer(unpack(args))
+    end)
 
-	if not success then
-		print("Error spawning tower: " .. message)
-		displayError(message) -- Display error message
-	else
-		print("Successfully spawned " .. towerNameWithLevel)
-	end
+    if not success then
+        print("Error spawning tower: " .. message)
+    else
+        print("Successfully spawned " .. towerNameWithLevel)
+    end
 end
 
 local towerNames = {"Elixir Pump", "Wizard", "Inferno Tower", "Ice Wizard", "Rune Giant", "Lumberjack"}
@@ -171,7 +154,6 @@ for i, name in ipairs(towerNames) do
 			spawnTowerAtPlayer(name, level)
 		else
 			print("Invalid level input! Please enter a level between 1-5+.") 
-			displayError("Invalid level input! Please enter a level between 1-5+.") -- Display error message
 		end
 	end)
 	
