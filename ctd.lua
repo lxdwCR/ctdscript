@@ -1,4 +1,3 @@
--- CTD Script (STABLE + LEVEL BY NAME)
 if not game:IsLoaded() then game.Loaded:Wait() end
 task.wait(1)
 
@@ -15,10 +14,8 @@ pcall(function()
     playerGui:FindFirstChild("CTD_GUI"):Destroy()
 end)
 
--- GLOBAL LEVEL (1–5)
-local GLOBAL_LEVEL = 1 -- Default to 1 (no "+") instead of string "1"
+local GLOBAL_LEVEL = 1
 
--- GUI ROOT
 local gui = Instance.new("ScreenGui")
 gui.Name = "CTD_GUI"
 gui.ResetOnSpawn = false
@@ -32,7 +29,6 @@ main.BorderSizePixel = 0
 main.Active = true
 main.Parent = gui
 
--- TITLE
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1,0,0,30)
 title.BackgroundTransparency = 1
@@ -42,7 +38,6 @@ title.Font = Enum.Font.SourceSansBold
 title.TextSize = 16
 title.Parent = main
 
--- SPINNER
 local spinner = Instance.new("Frame")
 spinner.Size = UDim2.new(0,160,0,160)
 spinner.Position = UDim2.new(0.5,-80,0,35)
@@ -72,20 +67,16 @@ RunService.RenderStepped:Connect(function(dt)
     spinText.Rotation = (spinText.Rotation + dt * 90) % 360
 end)
 
--- CONTENT OFFSET
-local contentY = 130  -- Space for level button
+local contentY = 130
 
--- PAGE 1
 local page1 = Instance.new("Frame")
 page1.Size = UDim2.new(1,0,1,-(contentY+50))
 page1.Position = UDim2.new(0,0,0,contentY)
 page1.BackgroundColor3 = Color3.fromRGB(0,0,0)
 page1.Parent = main
 
--- PAGE 2 (this will be dynamically created later)
-local pages = {page1}  -- Start with the first page
+local pages = {page1}
 
--- PAGE NAV
 local page = 1
 local totalPages = 1
 
@@ -135,10 +126,9 @@ end)
 
 updatePages()
 
--- GLOBAL LEVEL UI (Visible on all pages, BELOW NAVIGATION)
 local levelButton = Instance.new("TextButton")
 levelButton.Size = UDim2.new(1,-20,0,35)
-levelButton.Position = UDim2.new(0,10,1,-85)  -- Positioned just above the bottom (nav height + padding)
+levelButton.Position = UDim2.new(0,10,1,-85)
 levelButton.Text = "Level: "..GLOBAL_LEVEL
 levelButton.TextColor3 = Color3.new(1,1,1)
 levelButton.BackgroundColor3 = Color3.fromRGB(80,80,80)
@@ -148,7 +138,7 @@ levelButton.Parent = main
 
 local levelBox = Instance.new("TextBox")
 levelBox.Size = UDim2.new(1,-20,0,35)
-levelBox.Position = UDim2.new(0,10,1,-45)  -- Right above the level button when it opens
+levelBox.Position = UDim2.new(0,10,1,-45)
 levelBox.PlaceholderText = "Enter level (1-5)"
 levelBox.Visible = false
 levelBox.TextColor3 = Color3.new(0,0,0)
@@ -164,7 +154,7 @@ end)
 levelBox.FocusLost:Connect(function()
     local n = tonumber(levelBox.Text)
     if n and n >= 1 and n <= 5 then
-        GLOBAL_LEVEL = n  -- Set GLOBAL_LEVEL to the entered value
+        GLOBAL_LEVEL = n
         levelButton.Text = "Level: "..GLOBAL_LEVEL
         levelBox.Visible = false
     else
@@ -173,22 +163,17 @@ levelBox.FocusLost:Connect(function()
     end
 end)
 
--- SPAWN FUNCTION (LEVEL VIA + IN NAME)
 local function spawnTowerAtPlayer(baseName)
     if not player.Character then return end
     local hrp = player.Character:FindFirstChild("HumanoidRootPart")
     if not hrp then return end
 
     local cf = hrp.CFrame * CFrame.new(0,0,-6)
-
-    -- Use GLOBAL_LEVEL to determine the number of + symbols
-    local lvl = GLOBAL_LEVEL  -- Set level based on the GLOBAL_LEVEL value
-    local finalName = baseName .. string.rep("+", lvl - 1)  -- Append the appropriate number of "+" for the level
-
+    local lvl = GLOBAL_LEVEL
+    local finalName = baseName .. string.rep("+", lvl - 1)
     placeTower:InvokeServer(finalName, cf)
 end
 
--- Grab tower names from the folder
 local towersFolder = ReplicatedStorage:WaitForChild("Towers")
 local towers = {}
 
@@ -198,10 +183,9 @@ for _, tower in pairs(towersFolder:GetChildren()) do
     end
 end
 
--- Create search bar (above the page navigation)
 local searchBar = Instance.new("TextBox")
 searchBar.Size = UDim2.new(1,-20,0,35)
-searchBar.Position = UDim2.new(0,10,0,contentY - 90)  -- Adjust the vertical offset here
+searchBar.Position = UDim2.new(0,10,0,contentY - 90)
 searchBar.PlaceholderText = "Search Towers..."
 searchBar.TextColor3 = Color3.new(1,1,1)
 searchBar.BackgroundColor3 = Color3.fromRGB(80,80,80)
@@ -209,7 +193,6 @@ searchBar.Font = Enum.Font.SourceSans
 searchBar.TextSize = 16
 searchBar.Parent = main
 
--- Function to update tower buttons
 local function updateTowerButtons(filteredTowers)
     if not filteredTowers then
         filteredTowers = {}
@@ -277,7 +260,6 @@ searchBar:GetPropertyChangedSignal("Text"):Connect(function()
     updateTowerButtons(filteredTowers)
 end)
 
--- DRAGGING
 local dragging = false
 local dragStart
 local startPos
